@@ -56,7 +56,7 @@ module NmapUpload
         host_info << "Hostnames: #{host.hostnames}\n" if host.hostnames.length > 2
 
         port_hash = {}
-        host.getports(:any) do |port|
+        host.getports(:any,"open") do |port|
           port_info = ''
           srv = port.service
           port_info << "Port ##{port.num}/#{port.proto} is #{port.state} (#{port.reason})\n"
@@ -67,7 +67,7 @@ module NmapUpload
           port.scripts do |script|
             port_info << "#{script.id}: #{script.output}\n\n"
           end
-          port_info << "________________________________________________________________________"
+          port_info << "_"*50
           port_info << "\n\n\n"
 
           port_hash[ "#{port.num}/#{port.proto}" ] = port_info
